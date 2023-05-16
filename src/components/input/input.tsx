@@ -10,7 +10,7 @@ export function Input({ className, ...props }: InputProps) {
     [
       'rounded-element',
       'border',
-      'border-input',
+      'border-element-border',
       'text-tertiary',
       'px-4',
       'py-2',
