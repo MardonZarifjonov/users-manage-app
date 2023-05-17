@@ -13,6 +13,7 @@ export default {
         tertiary: '#9494A0',
         'element-border': '#C1C1CB',
         'main-bg': '#EBEBF0',
+        'blue-primary': '#5856D6',
       },
       padding: {
         main: '52px',

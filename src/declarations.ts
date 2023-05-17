@@ -9,6 +9,6 @@ export type Permission = string;
 export type User = {
   name: string;
   email: string;
-  image: string;
+  image?: string;
   permissions: Permission[];
 };

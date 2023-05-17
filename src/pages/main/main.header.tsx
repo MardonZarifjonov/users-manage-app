@@ -1,12 +1,17 @@
-import Button from 'components/button';
+import Button, { ButtonProps } from 'components/button';
 import Input, { InputProps } from 'components/input';
 
 export type MainHeaderProps = {
-  onChange: InputProps['onChange'];
+  handleInputChange: InputProps['onChange'];
   searchValue: string;
+  handleClick: ButtonProps['onClick'];
 };
 
-export function MainHeader({ searchValue, onChange }: MainHeaderProps) {
+export function MainHeader({
+  searchValue,
+  handleInputChange,
+  handleClick,
+}: MainHeaderProps) {
   return (
     <div className='px-8 py-4 flex gap-3 items-center'>
       <h1 className='text-2xl font-bold'>Команда</h1>
@@ -14,9 +19,9 @@ export function MainHeader({ searchValue, onChange }: MainHeaderProps) {
         placeholder='Поиск по Email'
         className='max-w-xl ml-auto'
         value={searchValue}
-        onChange={onChange}
+        onChange={handleInputChange}
       />
-      <Button>Добавить пользователя</Button>
+      <Button onClick={handleClick}>Добавить пользователя</Button>
     </div>
   );
 }
