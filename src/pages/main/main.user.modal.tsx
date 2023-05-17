@@ -4,13 +4,14 @@ import Card from 'components/card';
 import Input, { InputCheckbox, InputCheckboxProps } from 'components/input';
 import { permissions as permissionsList } from 'constants';
 import { User } from 'declarations';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type MainUserModalProps = {
   handleUserAdd: (data: User) => void;
   handleClose: () => void;
   loading?: boolean;
   editData?: User;
+  handleUserDelete: (id: User['id']) => void;
 };
 
 export function MainUserModal({
@@ -18,6 +19,7 @@ export function MainUserModal({
   handleClose,
   loading,
   editData,
+  handleUserDelete,
 }: MainUserModalProps) {
   const permissions = Object.values(permissionsList);
 
@@ -63,8 +65,12 @@ export function MainUserModal({
     });
   };
 
+  useEffect(() => {
+    if (checkedList.length !== permissions.length) setIsCheckAll(false);
+  }, [checkedList]);
+
   return (
-    <Card cardContentClassName='max-w-lg w-full h-auto  flex flex-col p-8 '>
+    <Card cardContentClassName='overflow-x-hidden inner-content-height w-full h-auto  flex flex-col p-8'>
       <ButtonClose className='self-end' onClick={handleClose} />
       <form
         className='flex flex-col gap-2 justify-self-center self-center'
@@ -106,15 +112,24 @@ export function MainUserModal({
                 checked={checkedList.includes(permission)}
                 onChange={handleCheck}
                 value={permission}
-                defaultChecked={editData?.permissions.includes(permission)}
               />
             </li>
           ))}
         </ul>
-        <Button disabled={loading}>
-          {' '}
-          {editData ? 'Сохранить изменения' : 'Отправить приглашение'}
-        </Button>
+        <div className='flex gap-3 w-full'>
+          {editData && (
+            <Button
+              className='bg-red-500 w-full'
+              onClick={() => handleUserDelete(editData.id)}
+            >
+              Удалить пользователя
+            </Button>
+          )}
+          <Button type='submit' disabled={loading} className='w-full'>
+            {' '}
+            {editData ? 'Сохранить изменения' : 'Отправить приглашение'}
+          </Button>
+        </div>
       </form>
     </Card>
   );

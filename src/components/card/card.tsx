@@ -20,18 +20,12 @@ export function Card({
     'rounded-primary bg-white overflow-hidden',
     className
   );
+  console.log(className);
 
   return (
     <div className={cardClassNames} {...props}>
       {header && <div className='border-b border-main-bg'>{header}</div>}
-      <div
-        className={classNames(
-          'overflow-x-hidden inner-content-height',
-          cardContentClassName
-        )}
-      >
-        {children}
-      </div>
+      <div className={classNames(cardContentClassName)}>{children}</div>
     </div>
   );
 }

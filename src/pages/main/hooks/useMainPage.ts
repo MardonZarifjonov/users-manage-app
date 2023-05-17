@@ -3,7 +3,13 @@ import { InputProps } from 'components/input';
 import { User } from 'declarations';
 import { useDebounceValue } from 'hooks';
 import { useMemo, useState } from 'react';
-import { createUser, getAllUsers, getUser, updateUser } from 'services/users';
+import {
+  createUser,
+  deleteUser,
+  getAllUsers,
+  getUser,
+  updateUser,
+} from 'services/users';
 
 export function useMainPage() {
   const queryClient = useQueryClient();
@@ -24,6 +30,14 @@ export function useMainPage() {
 
   const userUpdate = useMutation({
     mutationFn: updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['user', selectedId] });
+    },
+  });
+
+  const userDelete = useMutation({
+    mutationFn: deleteUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['user', selectedId] });
@@ -66,11 +80,15 @@ export function useMainPage() {
     !isOpen && setSelectedId(undefined);
   };
 
+  const handleUserDelete = async (id: User['id']) => {
+    await userDelete.mutate(id);
+  };
+
   return {
     open,
     users: displayedUsers,
     user: userQuery.data,
-    singleUserLoading: userQuery.isLoading,
+    singleUserLoading: userQuery.isFetching,
     loading: usersQuery.isLoading || usersQuery.isFetching,
     creating: userCreate.isLoading,
     searchValue,
@@ -78,5 +96,6 @@ export function useMainPage() {
     handleModal,
     handleUserAdd,
     handleUserSelect,
+    handleUserDelete,
   };
 }

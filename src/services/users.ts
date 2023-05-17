@@ -24,3 +24,9 @@ export async function updateUser({ id, data }: { id: User['id']; data: User }) {
 
   return response.data;
 }
+
+export async function deleteUser(id: User['id']) {
+  const response = await api.delete<User>(`/users/${id}`);
+
+  return response.data;
+}

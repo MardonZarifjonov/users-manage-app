@@ -19,12 +19,14 @@ export function Main() {
     handleModal,
     handleUserAdd,
     handleUserSelect,
+    handleUserDelete,
   } = useMainPage();
 
   return (
     <>
       <Card
         className='content-height'
+        cardContentClassName='overflow-x-hidden inner-content-height'
         header={
           <MainHeader
             searchValue={searchValue}
@@ -57,6 +59,7 @@ export function Main() {
             handleClose={() => handleModal(false)}
             loading={creating}
             editData={user}
+            handleUserDelete={handleUserDelete}
           />
         </Modal>
       )}
