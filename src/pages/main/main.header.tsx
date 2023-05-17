@@ -13,7 +13,7 @@ export function MainHeader({
   handleClick,
 }: MainHeaderProps) {
   return (
-    <div className='px-8 py-4 flex gap-3 items-center'>
+    <div className='px-8 py-4 flex flex-col items-stretch gap-3 md:items-center md:flex-row'>
       <h1 className='text-2xl font-bold'>Команда</h1>
       <Input
         placeholder='Поиск по Email'

@@ -68,6 +68,7 @@ export function useMainPage() {
     }
 
     setOpen(false);
+    setSelectedId(undefined);
   };
 
   const handleUserSelect = (id: User['id']) => {

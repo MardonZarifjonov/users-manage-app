@@ -39,8 +39,7 @@ export function Main() {
           <Spinner />
         ) : (
           <ul className='flex flex-col gap-8 py-8'>
-            {users &&
-              users?.length > 0 &&
+            {users && users?.length > 0 ? (
               users.map((singleUser) => (
                 <li key={singleUser.email}>
                   <MainUserCard
@@ -48,7 +47,12 @@ export function Main() {
                     handleUserSelect={handleUserSelect}
                   />
                 </li>
-              ))}
+              ))
+            ) : (
+              <h2 className='font-bold text-2xl self-center'>
+                Пользователь не найден
+              </h2>
+            )}
           </ul>
         )}
       </Card>
