@@ -1,11 +1,14 @@
+import { useQuery } from '@tanstack/react-query';
 import { InputProps } from 'components/input';
-import usersDB from 'data.json';
 import { User } from 'declarations';
 import { useDebounceValue } from 'hooks';
 import { useEffect, useMemo, useState } from 'react';
+import { getAllUsers } from 'services/users';
 
 export function useMainPage() {
-  const [users, setUsers] = useState<User[]>(usersDB);
+  const userQuery = useQuery({ queryKey: ['users'], queryFn: getAllUsers });
+
+  const [users, setUsers] = useState<User[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const debouncedValue = useDebounceValue(searchValue);
@@ -17,10 +20,10 @@ export function useMainPage() {
     //   return filteredUsers;
     // }
 
-    return users.filter((user) =>
+    return userQuery?.data?.filter((user) =>
       user.email.toLowerCase().includes(debouncedValue.toLowerCase())
     );
-  }, [debouncedValue, users]);
+  }, [debouncedValue, userQuery.data]);
 
   const handleSearchChange: InputProps['onChange'] = (event) => {
     setSearchValue(event.target.value);
@@ -33,14 +36,15 @@ export function useMainPage() {
     }
   };
 
-  useEffect(() => {}, [users]);
+  console.log(userQuery.data);
 
   return {
+    open,
     users: displayedUsers,
+    loading: userQuery.isLoading || userQuery.isFetching,
     searchValue,
     handleSearchChange,
     handleModal: setOpen,
-    open,
     handleUserAdd,
   };
 }
