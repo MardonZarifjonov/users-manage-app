@@ -1,14 +1,22 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { InputProps } from 'components/input';
 import { User } from 'declarations';
 import { useDebounceValue } from 'hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { getAllUsers } from 'services/users';
+import { createUser, getAllUsers } from 'services/users';
 
 export function useMainPage() {
-  const userQuery = useQuery({ queryKey: ['users'], queryFn: getAllUsers });
+  const queryClient = useQueryClient();
 
-  const [users, setUsers] = useState<User[]>([]);
+  const userQuery = useQuery({ queryKey: ['users'], queryFn: getAllUsers });
+  const userCreate = useMutation({
+    mutationFn: createUser,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+  // const [users, setUsers] = useState<User[]>([]);
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const debouncedValue = useDebounceValue(searchValue);
@@ -30,9 +38,11 @@ export function useMainPage() {
   };
 
   const handleUserAdd = (data: User) => {
-    const isUserExists = users.find((user) => user.email === data.email);
+    const isUserExists = userQuery?.data?.find(
+      (user) => user.email === data.email
+    );
     if (!isUserExists) {
-      setUsers([...users, { ...data }]);
+      userCreate.mutate(data);
     }
   };
 

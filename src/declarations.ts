@@ -7,6 +7,7 @@ export type DeepPartial<T> = T extends object
 export type Permission = string;
 
 export type User = {
+  id?: number;
   name: string;
   email: string;
   image?: string;
