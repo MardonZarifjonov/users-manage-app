@@ -1,54 +1,77 @@
 {
   "users": [
     {
-      "id": 1,
-      "name": "Артем Иванов",
       "email": "artem@gmail.com",
+      "name": "Артем Иванов",
       "permissions": [
         "Блог",
-        "Аналитика"
+        "Обращения клиентов"
       ],
-      "image": "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+      "id": 1
     },
     {
-      "id": 2,
-      "name": "Лена Новикова",
       "email": "lenkan@gmail.com",
+      "name": "Лена Новикова",
       "permissions": [
-        "Администратор"
+        "Блог"
       ],
-      "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+      "id": 2
     },
     {
-      "id": 3,
-      "name": "Максим Иванов",
       "email": "maksiim@gmail.com",
+      "name": "Максим Иванов",
       "permissions": [
         "Акции",
-        "Модерация объявлений",
-        "Тех. поддержка"
+        "Тех. поддержка",
+        "Блог"
       ],
-      "image": "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
+      "id": 3
     },
     {
-      "id": 4,
-      "name": "Айжулдыз Кошкинбай",
       "email": "aizhzk@gmail.com",
+      "name": "Айжулдыз Кошкинбай",
       "permissions": [
-        "Обращение клиентов"
+        "Обращение клиентов",
+        "Обращения клиентов",
+        "Тех. поддержка",
+        "Блог",
+        "Аналитика",
+        "Акции"
       ],
-      "image": "https://gorodprizrak.com/wp-content/uploads/2021/01/346545.jpg"
+      "id": 4
     },
     {
       "email": "exmaple1@gmail.com",
-      "name": "John Doe",
+      "name": "John Doe 1",
+      "permissions": [
+        "Модерация объявлений",
+        "Блог",
+        "Тех. поддержка",
+        "Обращения клиентов"
+      ],
+      "id": 5
+    },
+    {
+      "email": "exmaple2@gmail.com",
+      "name": "John Doe 1",
       "permissions": [
         "Модерация объявлений",
         "Тех. поддержка",
+        "Обращения клиентов",
         "Аналитика",
+        "Акции",
         "Администратор"
       ],
-      "id": 5
+      "id": 6
+    },
+    {
+      "email": "exmaple3@gmail.com",
+      "name": "Company test 1",
+      "permissions": [
+        "Модерация объявлений",
+        "Тех. поддержка"
+      ],
+      "id": 7
     }
   ]
 }

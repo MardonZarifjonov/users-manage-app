@@ -2,59 +2,81 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { InputProps } from 'components/input';
 import { User } from 'declarations';
 import { useDebounceValue } from 'hooks';
-import { useEffect, useMemo, useState } from 'react';
-import { createUser, getAllUsers } from 'services/users';
+import { useMemo, useState } from 'react';
+import { createUser, getAllUsers, getUser, updateUser } from 'services/users';
 
 export function useMainPage() {
   const queryClient = useQueryClient();
+  const [selectedId, setSelectedId] = useState<number | undefined>(undefined);
+  const usersQuery = useQuery({ queryKey: ['users'], queryFn: getAllUsers });
+  const userQuery = useQuery({
+    queryKey: ['user', selectedId],
+    queryFn: () => getUser(selectedId),
+    enabled: !!selectedId,
+  });
 
-  const userQuery = useQuery({ queryKey: ['users'], queryFn: getAllUsers });
   const userCreate = useMutation({
     mutationFn: createUser,
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   });
-  // const [users, setUsers] = useState<User[]>([]);
+
+  const userUpdate = useMutation({
+    mutationFn: updateUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['user', selectedId] });
+    },
+  });
+
   const [searchValue, setSearchValue] = useState('');
   const [open, setOpen] = useState(false);
   const debouncedValue = useDebounceValue(searchValue);
   const displayedUsers = useMemo(() => {
-    // const filteredUsers = users.filter((user) =>
-    //   user.email.toLowerCase().includes(debouncedValue.toLowerCase())
-    // );
-    // if (filteredUsers.length > 0) {
-    //   return filteredUsers;
-    // }
-
-    return userQuery?.data?.filter((user) =>
+    return usersQuery?.data?.filter((user) =>
       user.email.toLowerCase().includes(debouncedValue.toLowerCase())
     );
-  }, [debouncedValue, userQuery.data]);
+  }, [debouncedValue, usersQuery.data]);
 
   const handleSearchChange: InputProps['onChange'] = (event) => {
     setSearchValue(event.target.value);
   };
 
-  const handleUserAdd = (data: User) => {
-    const isUserExists = userQuery?.data?.find(
+  const handleUserAdd = async (data: User) => {
+    const isUserExists = usersQuery?.data?.find(
       (user) => user.email === data.email
     );
     if (!isUserExists) {
-      userCreate.mutate(data);
+      await userCreate.mutate(data);
+    } else {
+      await userUpdate.mutate({ id: selectedId, data });
     }
+
+    setOpen(false);
   };
 
-  console.log(userQuery.data);
+  const handleUserSelect = (id: User['id']) => {
+    setSelectedId(id);
+    setOpen(true);
+  };
+
+  const handleModal = (isOpen: boolean) => {
+    setOpen(isOpen);
+    !isOpen && setSelectedId(undefined);
+  };
 
   return {
     open,
     users: displayedUsers,
-    loading: userQuery.isLoading || userQuery.isFetching,
+    user: userQuery.data,
+    singleUserLoading: userQuery.isLoading,
+    loading: usersQuery.isLoading || usersQuery.isFetching,
+    creating: userCreate.isLoading,
     searchValue,
     handleSearchChange,
-    handleModal: setOpen,
+    handleModal,
     handleUserAdd,
+    handleUserSelect,
   };
 }

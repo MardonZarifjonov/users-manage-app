@@ -6,15 +6,32 @@ export type CardProps = React.DetailedHTMLProps<
   HTMLDivElement
 > & {
   header?: ReactNode;
+  cardContentClassName?: string;
 };
 
-export function Card({ children, className, header, ...props }: CardProps) {
-  const cardClassNames = classNames('rounded-primary bg-white', className);
+export function Card({
+  children,
+  className,
+  cardContentClassName,
+  header,
+  ...props
+}: CardProps) {
+  const cardClassNames = classNames(
+    'rounded-primary bg-white overflow-hidden',
+    className
+  );
 
   return (
     <div className={cardClassNames} {...props}>
       {header && <div className='border-b border-main-bg'>{header}</div>}
-      {children}
+      <div
+        className={classNames(
+          'overflow-x-hidden inner-content-height',
+          cardContentClassName
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 }

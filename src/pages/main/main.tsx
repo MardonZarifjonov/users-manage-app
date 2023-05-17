@@ -9,12 +9,16 @@ import { MainUserModal } from './main.user.modal';
 export function Main() {
   const {
     open,
+    user,
     users,
     loading,
+    creating,
     searchValue,
+    singleUserLoading,
     handleSearchChange,
     handleModal,
     handleUserAdd,
+    handleUserSelect,
   } = useMainPage();
 
   return (
@@ -35,18 +39,27 @@ export function Main() {
           <ul className='flex flex-col gap-8 py-8'>
             {users &&
               users?.length > 0 &&
-              users.map((user) => (
-                <MainUserCard key={user.email} user={user} />
+              users.map((singleUser) => (
+                <li key={singleUser.email}>
+                  <MainUserCard
+                    user={singleUser}
+                    handleUserSelect={handleUserSelect}
+                  />
+                </li>
               ))}
           </ul>
         )}
       </Card>
-      <Modal open={open}>
-        <MainUserModal
-          handleUserAdd={handleUserAdd}
-          handleClose={() => handleModal(false)}
-        />
-      </Modal>
+      {!singleUserLoading && (
+        <Modal open={open}>
+          <MainUserModal
+            handleUserAdd={handleUserAdd}
+            handleClose={() => handleModal(false)}
+            loading={creating}
+            editData={user}
+          />
+        </Modal>
+      )}
     </>
   );
 }

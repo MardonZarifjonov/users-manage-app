@@ -13,7 +13,7 @@ export function MainPermissionTag({
   ...props
 }: MainPermissionTagProps) {
   const tagClassNames = classNames(
-    'border border-element-border rounded-element py-1 px-4 grid place-items-center font-medium text-base',
+    'border border-element-border rounded-element py-1 px-4 grid place-items-center font-medium text-base whitespace-nowrap',
     className
   );
 

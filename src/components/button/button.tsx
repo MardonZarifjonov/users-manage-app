@@ -23,11 +23,14 @@ export function Button({
       'active:opacity-80',
       // 'focus:opacity-80',
     ],
+    {
+      'bg-tertiary pointer-events-none opacity-30 cursor-not-allowed': disabled,
+    },
     className
   );
 
   return (
-    <button className={buttonClassNames} {...props}>
+    <button className={buttonClassNames} disabled={disabled} {...props}>
       {children}
     </button>
   );

@@ -11,6 +11,10 @@ body {
   height: calc(100vh - 2 * theme('padding.main'));
 }
 
+.inner-content-height {
+  height: calc(100vh - 2 * theme('padding.main') - 76px);
+}
+
 .visually-hidden {
   position: absolute;
   position: absolute !important;
