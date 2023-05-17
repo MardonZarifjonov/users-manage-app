@@ -17,7 +17,6 @@ To run the project locally, proceed with the following steps and commands:
 - Semantic HTML5 markup
 - CSS Framework - TailwindCSS
 - Flexbox
-- CSS Grid
 - [React](https://reactjs.org/) - JS library
 - [TypeScript](https://www.typescriptlang.org/) - helps to build strongly typed JS code
 - [TaiwindCSS](https://tailwindcss.com/) - A utility-first CSS framework
